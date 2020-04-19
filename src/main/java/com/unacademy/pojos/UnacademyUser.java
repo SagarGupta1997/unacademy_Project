@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @RedisHash("UnacademyUser")
-public class UnacademyUser implements Serializable{
+public class UnacademyUser implements Serializable {
     @Id
     private String email;
 

@@ -75,18 +75,19 @@ public class UserDaoImpl implements UserDao {
     public boolean zAddUser(UnacademyUser unacademyUser, double score) {
         try {
             Map userHash = new ObjectMapper().convertValue(unacademyUser, Map.class);
-            return redisTemplate.opsForZSet().add(KEY_Set, userHash,score );
+            return redisTemplate.opsForZSet().add(KEY_Set, userHash, score);
 
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
+
     @Override
     public long rankOfUser(UnacademyUser unacademyUser) {
         try {
             Map userHash = new ObjectMapper().convertValue(unacademyUser, Map.class);
-            long rank = redisTemplate.opsForZSet().rank(KEY_Set,userHash);
+            long rank = redisTemplate.opsForZSet().rank(KEY_Set, userHash);
             return rank;
 
         } catch (Exception e) {
@@ -94,12 +95,13 @@ public class UserDaoImpl implements UserDao {
             return Long.MIN_VALUE;
         }
     }
+
     @Override
-    public List<UnacademyUser> getAllUserByRange( long lower, long upper) {
+    public List<UnacademyUser> getAllUserByRange(long lower, long upper) {
         try {
-            Set<Map> users = redisTemplate.opsForZSet().range(KEY_Set,lower,upper);
+            Set<Map> users = redisTemplate.opsForZSet().range(KEY_Set, lower, upper);
             List<UnacademyUser> unacademyUserList = new ArrayList<>();
-            for(Map user : users) {
+            for (Map user : users) {
                 UnacademyUser unacademyUser = new ObjectMapper().convertValue(user, UnacademyUser.class);
                 unacademyUserList.add(unacademyUser);
             }
@@ -111,10 +113,10 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    public boolean setExpire(long timeOut,String key_name) {
+    public boolean setExpire(long timeOut, String key_name) {
         redisTemplate.expire(KEY, timeOut, TimeUnit.HOURS);
         try {
-           return redisTemplate.expire(key_name, timeOut, TimeUnit.HOURS);
+            return redisTemplate.expire(key_name, timeOut, TimeUnit.HOURS);
 
         } catch (Exception e) {
             log.info(e.getMessage());

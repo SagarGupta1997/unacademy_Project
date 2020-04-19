@@ -34,11 +34,11 @@ public class UserController {
         Boolean result = userDao.saveUser(unacademyUser);
         if (result) {
 
-            ResponseDto responseDto = new ResponseDto("Added",200);
+            ResponseDto responseDto = new ResponseDto("Added", 200);
             return responseDto;
 
         } else {
-            return new ResponseDto("Not Added",200);
+            return new ResponseDto("Not Added", 200);
         }
 
     }
@@ -50,17 +50,16 @@ public class UserController {
         try {
             UnacademyUser result = userDao.findByEmailId(emailId);
             log.info(String.valueOf(result));
-            Map<String,Object> response = new HashMap<>();
+            Map<String, Object> response = new HashMap<>();
             response.put("data", result);
-            ResponseDto responseDto = new ResponseDto("SuccessFul",200,response);
+            ResponseDto responseDto = new ResponseDto("SuccessFul", 200, response);
             return responseDto;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             JSONObject response = new JSONObject();
             response.put("message", e.getMessage());
             response.put("status", 500);
             response.put("data", "");
-            ResponseDto responseDto = new ResponseDto("InternalServerError",500,response.toMap());
+            ResponseDto responseDto = new ResponseDto("InternalServerError", 500, response.toMap());
             return responseDto;
         }
     }
@@ -70,32 +69,31 @@ public class UserController {
     public BaseResponseDto deleteUserByKey(@RequestParam(value = "key") String key) {
         try {
             boolean response = userDao.deleteKey(key);
-            if(response) {
+            if (response) {
                 return new ResponseDto("Key Deleted SuccessFully", 200);
             }
             return new ResponseDto("Key Not Deleted", 404);
         } catch (Exception e) {
-            return new ResponseDto(e.getMessage(),500);
+            return new ResponseDto(e.getMessage(), 500);
         }
     }
 
 
     @RequestMapping(value = "/getUserByRange", method = RequestMethod.GET)
-    public BaseResponseDto getUserByRange(@RequestParam (value = "lower") long lower,@RequestParam (value = "upper") long upper) {
+    public BaseResponseDto getUserByRange(@RequestParam(value = "lower") long lower, @RequestParam(value = "upper") long upper) {
         try {
-            List<UnacademyUser> results = userDao.getAllUserByRange(lower,upper);
+            List<UnacademyUser> results = userDao.getAllUserByRange(lower, upper);
             log.info(String.valueOf(results));
-            Map<String,Object> response = new HashMap<>();
+            Map<String, Object> response = new HashMap<>();
             response.put("data", results);
-            ResponseDto responseDto = new ResponseDto("SuccessFul",200,response);
+            ResponseDto responseDto = new ResponseDto("SuccessFul", 200, response);
             return responseDto;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             JSONObject response = new JSONObject();
             response.put("message", e.getMessage());
             response.put("status", 500);
             response.put("data", "");
-            ResponseDto responseDto = new ResponseDto("InternalServerError",500,response.toMap());
+            ResponseDto responseDto = new ResponseDto("InternalServerError", 500, response.toMap());
             return responseDto;
         }
     }
@@ -109,9 +107,9 @@ public class UserController {
         long result = userDao.rankOfUser(unacademyUser);
         log.info(String.valueOf(result));
         if (result != Long.MIN_VALUE) {
-            Map<String,Object> response = new HashMap<>();
+            Map<String, Object> response = new HashMap<>();
             response.put("rank Of User", result);
-            ResponseDto responseDto = new ResponseDto("SuccessFul",200,response);
+            ResponseDto responseDto = new ResponseDto("SuccessFul", 200, response);
             return responseDto;
         } else {
             return new ResponseDto("User Not Found", 404);
@@ -124,10 +122,10 @@ public class UserController {
         log.info(String.valueOf(UnacademyUser));
         ModelMapper modelMapper = new ModelMapper();
         UnacademyUser unacademyUser = modelMapper.map(UnacademyUser, UnacademyUser.class);
-        boolean result = userDao.zAddUser(unacademyUser,unacademyUser.getScore());
+        boolean result = userDao.zAddUser(unacademyUser, unacademyUser.getScore());
         log.info(String.valueOf(result));
         if (result) {
-            ResponseDto responseDto = new ResponseDto("User Added SuccessFul",200);
+            ResponseDto responseDto = new ResponseDto("User Added SuccessFul", 200);
             return responseDto;
         } else {
             return new ResponseDto("User Not Created", 500);
@@ -152,11 +150,11 @@ public class UserController {
 
 
     @RequestMapping(value = "/setExpireInHour", method = RequestMethod.GET)
-    public BaseResponseDto setExpire(@RequestParam(value = "expire_in_hour") long timeOut,@RequestParam(value = "key") String key ) {
-        log.info("timeout"+timeOut);
+    public BaseResponseDto setExpire(@RequestParam(value = "expire_in_hour") long timeOut, @RequestParam(value = "key") String key) {
+        log.info("timeout" + timeOut);
         try {
-            boolean result = userDao.setExpire(timeOut,key);
-            if(result) {
+            boolean result = userDao.setExpire(timeOut, key);
+            if (result) {
                 return new ResponseDto("Expiry Time  Set", 200);
             }
             return new ResponseDto("Expiry Time Not Set", 400);
