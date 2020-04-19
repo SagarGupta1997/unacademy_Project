@@ -15,4 +15,4 @@ ans:- I use ArrayList, Map, HashMap because Time Complexity is lesser in Map tha
 
 4. Does your implementation support multi threaded operations? If No
 why can’t it be? If yes then how ?
-ans;-Yes,
+ans:-Yes,
